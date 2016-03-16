@@ -30,54 +30,26 @@ void setup() {
 void loop() {
   while (!blueToothSerial.available());
   motorHizi = blueToothSerial.read(); 
-  if( motorHizi == '5' ){
-      digitalWrite(12, LOW);
-      digitalWrite(9, LOW);
-      analogWrite(arkaMotor, 255);   
+  switch(motorHizi)
+  {
+    case '5':control(12,9,arkaMotor,LOW,LOW,255); break;
+    case '4':control(12,9,arkaMotor,LOW,LOW,200); break;
+    case '3':control(12,9,arkaMotor,LOW,LOW,150); break;
+    case '2':control(12,9,arkaMotor,LOW,LOW,250); break;
+    case '1':control(12,9,arkaMotor,HIGH,LOW,200); break;
+    case '0':analogWrite(arkaMotor, 0); break;
+    case 'a':analogWrite(direksiyon, 0); break; //on motor ayarlari dur 
+    case 'b':control(13,8,direksiyon,LOW,LOW,255); break; //on motor ayarlari saga 
+    case 'c':control(12,9,direksiyon,HIGH,LOW,255); break; //on motor ayarlari sola
   }
-  if( motorHizi == '4' ){
-      digitalWrite(12, LOW);
-      digitalWrite(9, LOW);
-      analogWrite(arkaMotor, 200);   
-  }
-  if( motorHizi == '3' ){
-      digitalWrite(12, LOW);
-      digitalWrite(9, LOW);
-      analogWrite(arkaMotor, 150);   
-  }
-  if( motorHizi == '2' ){
-      digitalWrite(12, LOW);
-      digitalWrite(9, LOW);
-      analogWrite(arkaMotor, 250);   
-  }
-
-  if( motorHizi == '1' ){
-      digitalWrite(12, HIGH);
-      digitalWrite(9, LOW);
-      analogWrite(arkaMotor, 200);   
-  }
-
-  if( motorHizi == '0' ){
-      analogWrite(arkaMotor, 0);   
-  }
-
- //on motor ayarlari dur 
-  if( motorHizi == 'a' ){
-    analogWrite(direksiyon, 0);   
-  } 
- //on motor ayarlari saga 
-  if( motorHizi == 'b' ){
-    digitalWrite(13, LOW);
-    digitalWrite(8, LOW);
-    analogWrite(direksiyon, 255);   
-  } 
- //on motor ayarlari sola 
-  if( motorHizi == 'c' ){
-    digitalWrite(13, HIGH);
-    digitalWrite(8, LOW);
-    analogWrite(direksiyon, 255);   
-  } 
    
+}
+
+void control( int dw1, int dw2, int motor, int lh1, int lh2, int aw)
+{
+      digitalWrite(dw1, lh1);
+      digitalWrite(dw2, lh2);
+      analogWrite(motor, aw);  
 }
 
 void setupBlueToothConnection()
